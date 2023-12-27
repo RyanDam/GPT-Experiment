@@ -12,6 +12,14 @@ pip install -e .
 
 This python package is called `tinygpt` and use cli to perform train, val, and generate. Checkout `exps/train.sh` for more.
 
+## TODO
+
+- Validate, and generate CLI
+- Model pretrain on OWT dataset
+- GPT-2 weight
+- Finetune GPT-2
+- Llama2 research
+
 ## References
 
 - Tutorial video: https://www.youtube.com/watch?v=kCc8FmEb1nY
