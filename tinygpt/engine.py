@@ -70,10 +70,10 @@ def train_sequence(cfgs):
             if loss_val < best_vloss:
                 torch.save(model.state_dict(), save_best)
                 best_vloss = loss_val
-                print("\nSaved best", best_vloss.cpu().detach().numpy(), save_best, "\n")
+                print("\nSaved best iter", iter, "vloss", best_vloss.cpu().detach().numpy(), save_best)
 
             torch.save(model.state_dict(), save_last)
-            des = f"iter [{iter+1:5d}/{cfgs.train_iter:5d}] tloss {loss_train.cpu().detach().numpy()} vloss {loss_val.cpu().detach().numpy()}"
+            des = f"iter [{iter:5d}/{cfgs.train_iter:5d}] tloss {loss_train.cpu().detach().numpy()} vloss {loss_val.cpu().detach().numpy()}"
             
         pbar.set_description(des)
 
