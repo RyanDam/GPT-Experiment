@@ -1,17 +1,26 @@
+# general info
 name: TinyGPT
 project: # project directory
 task: train
 data_path: dataset/shakespeare.txt
-batch_size: 64
-chunk_size: 256
-emb_size: 128
+data_split: 0.9
 seed: 2202
-learning_rate: 0.001
-train_iter: 5000
-val_iter: 500
 device: cpu
-head_size: 128
+
+# model
+activation: GELU
+chunk_size: 256 # how far in time
+emb_size: 128 # embedding size
+head_size: 128 # attention head size
 num_head: 6
 num_block: 6
 dropout: 0.2
-data_split: 0.9
+
+# training
+optimizer: AdamW
+batch_size: 64
+train_iter: 5000
+val_iter: 500
+lr: 0.001
+lr_start_factor: 0.1
+lr_ramp_iter: 200
