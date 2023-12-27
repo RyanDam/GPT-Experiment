@@ -1,0 +1,17 @@
+name: TinyGPT
+project: # project directory
+task: train
+data_path: dataset/shakespeare.txt
+batch_size: 64
+chunk_size: 256
+emb_size: 128
+seed: 2202
+learning_rate: 0.001
+train_iter: 5000
+val_iter: 500
+device: cpu
+head_size: 128
+num_head: 6
+num_block: 6
+dropout: 0.2
+data_split: 0.9
