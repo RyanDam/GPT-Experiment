@@ -38,6 +38,8 @@ def train_sequence(cfgs):
         yaml_save(save_config, cfg2dict(cfgs))
     print(f"Project path: {save_dir}")
 
+    init_seeds(cfgs.seed)
+
     print("Reading data...")
     dataset = Dataset(cfgs)
     print("Reading data...DONE")
