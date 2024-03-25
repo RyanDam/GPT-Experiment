@@ -4,6 +4,7 @@ from pathlib import Path
 import torch
 from torch import nn
 from torch.nn import functional as F
+from torch.optim import lr_scheduler
 
 from tinygpt import TQDM_BAR_FORMAT
 from tinygpt.cfg import get_cfg, yaml_save, cfg2dict
@@ -52,7 +53,8 @@ def train_sequence(cfgs):
     print("Building model...DONE")
 
     print("Training...")
-    optimizer = torch.optim.AdamW(model.parameters(), lr=cfgs.learning_rate)
+    optimizer = getattr(torch.optim, cfgs.optimizer)(model.parameters(), lr=cfgs.lr)
+    scheduler = lr_scheduler.LinearLR(optimizer, start_factor=cfgs.lr_start_factor, total_iters=cfgs.lr_ramp_iter)
 
     best_vloss = 9999
     pbar = tqdm.tqdm(list(range(cfgs.train_iter)), total=cfgs.train_iter, bar_format=TQDM_BAR_FORMAT)
@@ -65,6 +67,7 @@ def train_sequence(cfgs):
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
+        scheduler.step()
 
         if (iter % cfgs.val_iter == 0) or (iter == cfgs.train_iter-1):
             loss_train, loss_val = perform_validate(model, dataset)
@@ -75,7 +78,7 @@ def train_sequence(cfgs):
                 print("\nSaved best iter", iter, "vloss", best_vloss.cpu().detach().numpy(), save_best)
 
             torch.save(model.state_dict(), save_last)
-            des = f"iter [{iter:5d}/{cfgs.train_iter:5d}] tloss {loss_train.cpu().detach().numpy()} vloss {loss_val.cpu().detach().numpy()}"
+            des = f"iter [{iter:5d}/{cfgs.train_iter:5d}] tloss {loss_train.cpu().detach().numpy():0.4f} vloss {loss_val.cpu().detach().numpy():0.4f}"
             
         pbar.set_description(des)
 

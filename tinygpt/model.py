@@ -67,9 +67,11 @@ class FeedForward(nn.Module):
 
         self.cfgs = cfgs
 
+        ACT = getattr(torch.nn, self.cfgs.activation)
+
         self.feed = nn.Sequential(
             nn.Linear(self.cfgs.emb_size, self.cfgs.emb_size*4),
-            nn.ReLU(),
+            ACT(),
             nn.Linear(self.cfgs.emb_size*4, self.cfgs.emb_size),
             nn.Dropout(self.cfgs.dropout)
         )

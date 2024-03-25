@@ -9,8 +9,8 @@ FILE = Path(__file__).resolve()
 ROOT = FILE.parents[0]
 DEFAULT_CFG_PATH = ROOT / 'default.yaml'
 
-CFG_INT_KEYS = ['batch_size', 'chunk_size', 'emb_size', 'train_iter', 'val_iter', 'head_size', 'num_head', 'num_block', 'seed']
-CFG_FRACTION_KEYS = ['learning_rate']
+CFG_INT_KEYS = ['batch_size', 'chunk_size', 'emb_size', 'train_iter', 'val_iter', 'head_size', 'num_head', 'num_block', 'seed', 'lr_ramp_iter']
+CFG_FRACTION_KEYS = ['lr', 'lr_start_factor']
 CFG_FLOAT_KEYS = ['dropout', 'data_split']
 CFG_BOOL_KEYS = []
 
