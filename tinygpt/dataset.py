@@ -1,5 +1,7 @@
 import torch
 
+from .tokenizer import Tokenizer
+
 class Dataset:
 
     def __init__(self, cfgs):
@@ -9,14 +11,18 @@ class Dataset:
         with open(cfgs.data_path, 'r') as f:
             self.data_raw = f.read()
 
-        self.corpus = sorted(list(set(self.data_raw)))
-        self.corpus_size = len(self.corpus)
-        print("".join(self.corpus), len(self.corpus))
+        # self.corpus = sorted(list(set(self.data_raw)))
+        # self.corpus_size = len(self.corpus)
+        # print("".join(self.corpus), len(self.corpus))
 
-        self.ctoi = {c: idx for idx, c in enumerate(self.corpus)}
-        self.itoc = {idx: c for idx, c in enumerate(self.corpus)}
-        self.encode = lambda s: [self.ctoi[c] for c in s]
-        self.decode = lambda tokens: "".join([self.itoc[i] for i in tokens])
+        # self.ctoi = {c: idx for idx, c in enumerate(self.corpus)}
+        # self.itoc = {idx: c for idx, c in enumerate(self.corpus)}
+        # self.encode = lambda s: [self.ctoi[c] for c in s]
+        # self.decode = lambda tokens: "".join([self.itoc[i] for i in tokens])
+
+        self.tokenizer = Tokenizer(cfgs.tokenizer_path)
+        self.encode = lambda s: self.tokenizer.encode(s)
+        self.decode = lambda tokens: self.tokenizer.decode(tokens)
 
         self.data_token = torch.tensor(self.encode(self.data_raw)).long().to(cfgs.device)
 
@@ -25,6 +31,10 @@ class Dataset:
         self.data_token_train = self.data_token[:self.data_split_idx]
         self.data_token_val = self.data_token[self.data_split_idx:]
         print("Train sample:", len(self.data_token_train), "Val sample:", len(self.data_token_val))
+
+    @property
+    def corpus_size(self):
+        return self.tokenizer.corpus_size
 
     def get_batch(self, split):
         data_split = self.data_token_train if split == "train" else self.data_token_val

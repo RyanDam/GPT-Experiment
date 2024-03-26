@@ -7,11 +7,14 @@ data_split: 0.9
 seed: 2202
 device: cpu
 
+# tokenizer
+tokenizer_path: tokens.json
+
 # model
 activation: GELU
 chunk_size: 256 # how far in time
-emb_size: 128 # embedding size
-head_size: 128 # attention head size
+emb_size: 64 # embedding size
+head_size: 64 # attention head size
 num_head: 6
 num_block: 6
 dropout: 0.2
@@ -19,7 +22,7 @@ dropout: 0.2
 # training
 optimizer: AdamW
 batch_size: 64
-train_iter: 5000
+train_iter: 10000
 val_iter: 500
 lr: 0.001
 lr_start_factor: 0.1
