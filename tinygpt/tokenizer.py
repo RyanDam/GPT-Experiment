@@ -36,7 +36,7 @@ class Tokenizer:
         self._token_path = token_path
         self.load(self._token_path)
 
-        print("Tokenizer initialized from:", self.token_path)
+        print("Tokenizer initialized from:", self._token_path)
         print("Tokenizer corpus size:", self.corpus_size)
 
     @property
