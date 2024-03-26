@@ -1,1 +1,1 @@
-tinygpt --project="exps" --data_path="../dataset/shakespeare.txt" --device="mps"
+tinygpt --project="exps" --data_path="../dataset/shakespeare.txt" --device="cuda"

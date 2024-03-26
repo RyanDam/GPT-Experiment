@@ -1,6 +1,6 @@
 import json
 
-MAX_BYTE = const(256)
+MAX_BYTE = 256
 
 def get_stats(data):
     stats = {}
